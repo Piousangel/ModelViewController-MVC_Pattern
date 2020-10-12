@@ -13,6 +13,8 @@ import model.Action;
 import model.IndexAction;
 import model.LoginAction;
 import model.LogoutAction;
+import model.NoticeAction;
+import model.SearchAction;
 
 /**
  * Servlet implementation class Controller
@@ -45,6 +47,13 @@ public class Controller extends HttpServlet {
 		
 		else if(type.equals("logout"))
 			action = new LogoutAction();
+		
+		else if(type.equalsIgnoreCase("notice"))
+			action = new NoticeAction();
+		
+		else if(type.equalsIgnoreCase("search"))
+			action = new SearchAction();
+		
 		
 		viewPath = action.execute(request, response); //IndexAction이 수행되었다면 "/jsp/index.jsp"
 		
