@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs">
+
+	<resultMap type="mybatis.vo.BbsVO" id="map1">
+		<id column="b_idx" property="b_idx"/>   <!-- 앞의 id는 col명이고 property는 vo에 저장되는  -->
+		<collection property="c_list" select="commList" column="b_idx" ofType="mybatis.vo.CommVO"></collection>
+	</resultMap>
+
+	<!-- 특정 원글의 키본키를 조건으로 하여 해당 댓글들을 조회하는 기능 -->
+	<select id="commList" parameterType="String" resultType="mybatis.commVO">
+		select * from comment_t
+		where b_idx = #{b_dix}
+	</select>
+
+
+	<!-- 사용자가 원글의 목록을 호출할 때 사용되는 목록 기능 -->
+	<select id="list" parameterType="java.util.Map" resultMap="map1">
+		select * from (
+			select * rownum r_num, a.* from(
+				select * from bbs where status = 0 
+				AND bname = #{bname} order by b_idx DESC
+			) a
+		) where r_num BETWEEN #{begin} AND #{end}
+		
+			
+	</select>
+</mapper>
