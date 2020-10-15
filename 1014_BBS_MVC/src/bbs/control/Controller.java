@@ -46,9 +46,6 @@ public class Controller extends HttpServlet {
 		
 		disp.forward(request, response);
 			
-		
-		
-		
 	}
 
 	/**

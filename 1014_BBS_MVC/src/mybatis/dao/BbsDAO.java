@@ -28,7 +28,7 @@ public class BbsDAO {
 		if(list != null && list.size() >0) {
 			ar = new BbsVO[list.size()];
 			
-			list.toArray();
+			list.toArray(ar);
 		}
 		
 		ss.close();

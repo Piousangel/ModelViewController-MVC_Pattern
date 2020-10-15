@@ -14,6 +14,7 @@ public class ListAction implements Action {
 		
 		String cPage = request.getParameter("cPage");
 		int p = 1;
+		
 		if(cPage != null) {
 			p = Integer.parseInt(cPage);
 		}else {
