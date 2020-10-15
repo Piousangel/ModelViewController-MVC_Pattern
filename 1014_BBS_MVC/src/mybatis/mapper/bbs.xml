@@ -26,4 +26,24 @@
   	) WHERE r_num BETWEEN #{begin} AND #{end}
   </select>
   
+  <!-- 페이징 기법에 사용될 전체페이지 수를 구하기 위해 현재 전체 게시물의 수를 반환합니다. -->
+  <select id="totalCount" resultType="int" parameterType="String">
+  	SELECT COUNT(*) FROM bbs
+  	WHERE status = 0 AND bname = #{bname}
+  </select>
+  
+  <!--  원글 저장 insert문 -->
+  <insert id="add" parameterType="java.util.Map">
+  	INSERT INTO bbs(b_idx, subject, writer, content, file_name, write_date, ip, hit, status, bname)
+  	VALUES(bbs_seq.NEXTVAL, #{subject}, #{writer}, 
+  		#{content}, #{file_name}, sysdate, #{ip}, 0, 0, #{bname})	
+  </insert>
+  
+  <!-- 보기 기능 입니다 resultMap으로 하지 않으면 댓글들을 같이 받아오지 못합니다. -->
+  <select id="getBbs" resultMap="map1" parameterType="String">
+  	select * from bbs where b_idx = #{idx}
+  </select>
+  
+  
+  
 </mapper>

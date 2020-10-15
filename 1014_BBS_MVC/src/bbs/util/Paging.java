@@ -58,6 +58,55 @@ public class Paging {
 		begin = (nowPage-1)*blockList+1;
 		end = begin+blockList-1;
 		
+		//이전기능 가능여부 확인(startPage가 1이 아닌 경우)
+		if(startPage > 1)
+			isPrePage = true;
+		
+		//다음기능 가능 여부 (endpage가 totalpage보다 작은 경우)
+		if(endPage < totalPage)
+			isNextPage = true;
+		
+		//이제 현재페이지 값도 알고, 시작페이지와 끝페이지 값을 알았으니
+		//페이징 기법에 사용할 HTML코드를 작성하여 StringBuffer에 저장합시다.
+		
+		sb = new StringBuffer("<ol class='paging'>");
+		
+		if(isPrePage) {
+			sb.append("<li><a href='Controller?cPage=");
+			sb.append(startPage-blockPage);
+			sb.append("'> &lt; </a></li>");
+		}else {
+			//이전 기능 비활성화(Startpage가 1인경우
+			sb.append("<li class='disable'> &lt; </li>");
+		}
+		
+		//페이지 번호를 cnf력하는 반복문 작성입니다.(현재 페이지에는 now라는 css클래스를 적용합니다.)
+		for(int i= startPage; i<=endPage; i++) {
+			//i값이 현재페이지(nowpage)와 같을 때를 구별하여 css클래스를 적용합니다.
+			if(i == nowPage) {
+				sb.append("<li class='now'>");
+				sb.append(i);
+				sb.append("</li>");
+			}else {
+				sb.append("<li><a href='Controller?cPage=");
+				sb.append(i);
+				sb.append("'>");
+				sb.append(i);
+				sb.append("</a></li>");
+			}
+		}//for문끝입니다.
+		
+		//다음기능 가능여부 확인
+		if(isNextPage) {
+			sb.append("<li><a href='Controller?cPage=");
+			sb.append(startPage+blockPage);
+			sb.append("'> &gt; </a></li>");
+		}else {
+			//이전 기능 비활성화(Startpage가 1인경우
+			sb.append("<li class='disable'> &gt; </li>");
+		}
+		sb.append("</ol>");
+		
 	}
 
 	public int getNowPage() {
