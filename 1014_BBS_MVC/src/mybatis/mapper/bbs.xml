@@ -44,6 +44,24 @@
   	select * from bbs where b_idx = #{idx}
   </select>
   
+  <!--  원글 수정하기 기능 입니다.  -->
+  <update id="edit" parameterMap="java.util.Map">
+  	UPDATE bbs
+  		SET
+  			subject = #{subject},
+  			content = #{content}
+  			<if test="fname != null">
+  				,file_name =#{fname}
+  			</if>
+  		WHERE b_idx = #{b_idx}
+  </update>
+  
+  <!-- 원글 삭제 기능입니다. -->
+  <update id="del" parameterType="String">
+  	UPDATE bbs
+  	SEt status = 1
+  	WHERE b_idx = #{b_idx}
+  </update>
   
   
 </mapper>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bbs.action.Action;
+import bbs.action.EditAction;
 import bbs.action.ListAction;
 import bbs.action.ViewAction;
 import bbs.action.WriteAction;
@@ -35,28 +36,30 @@ public class Controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//요청시 한글처리
 		request.setCharacterEncoding("utf-8");
-		Action action = null;
 		
 		String type = request.getParameter("type");
 		
-		if(type == null || type.equals("list")) 
+		Action action = null;
+		if(type == null || type.equals("list"))
 			action = new ListAction();
 		else if(type.equals("write"))
 			action = new WriteAction();
 		else if(type.equals("view"))
 			action = new ViewAction();
+		else if(type.equals("edit"))
+			action = new EditAction();
+			
 		
 		String viewPath = action.execute(request, response);
+		
 		if(viewPath != null) {
-		RequestDispatcher disp = request.getRequestDispatcher(viewPath);
-		
-		disp.forward(request, response);
+			RequestDispatcher disp = request.getRequestDispatcher(viewPath);
+			
+			disp.forward(request, response);
+		} else {
+			//viewPath가 null을 가졌다면 목록창으로 이동한다.
+			response.sendRedirect("Controller");
 		}
-		else {
-			//viewPath == null 일때 목록창으로 이동합니다.
-			response.sendRedirect("Controller");	
-		}
-		
 	}
 
 	/**
@@ -68,3 +71,4 @@ public class Controller extends HttpServlet {
 	}
 
 }
+
